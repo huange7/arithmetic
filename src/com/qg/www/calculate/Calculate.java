@@ -1,9 +1,8 @@
 package com.qg.www.calculate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @description 对算数表达式进行结算
@@ -12,10 +11,19 @@ import java.util.Stack;
  */
 public class Calculate {
 
+    public static Pattern pattern = Pattern.compile("[0-9]+\\'[0-9]+\\/[0-9]+");
+
     public static String getResult(String expression) {
 
         //将所有空格去掉
         expression = expression.replaceAll(" +", "");
+        //将表达式中所有的真分数转化成假分数
+
+        Matcher m = pattern.matcher(expression);
+        while(m.find())
+        {
+            expression = expression.replace(m.group(), Transform.TrueToFalse(m.group()));
+        }
         //将中缀表达式转换成后缀表达式
         expression = Transform.change(expression);
 

@@ -158,4 +158,16 @@ public class Transform {
         }
         return number;
     }
+
+    //将真分数转化成假分数
+    public static String TrueToFalse(String fraction) {
+        if (fraction.matches("[0-9]+\\'[0-9]+\\/[0-9]+")) {
+            String num = fraction.split("\\/")[0];
+            Integer denominator = Integer.valueOf(fraction.split("\\/")[1]);
+            Integer numerator = Integer.valueOf(num.split("\\'")[0]) * denominator +
+                    Integer.valueOf(num.split("\\'")[1]);
+            return numerator + "/" + denominator;
+        }
+        return fraction;
+    }
 }

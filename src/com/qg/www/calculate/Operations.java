@@ -124,7 +124,7 @@ public class Operations {
     }
 
     private void generateChar(LinkedList<Character> characters) {
-        String chars = "+-*÷";
+        String chars = "+-×÷";
         for (int i = 0; i < operatorsNumber; i++) {
             characters.add(chars.charAt(new Random().nextInt(chars.length())));
         }
