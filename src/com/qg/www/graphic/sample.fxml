@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.geometry.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+
+<GridPane alignment="center" hgap="10" prefHeight="458.0" prefWidth="582.0" vgap="10" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.qg.www.graphic.Controller">
+   <columnConstraints>
+      <ColumnConstraints percentWidth="0.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+      <RowConstraints percentHeight="0.0" />
+   </rowConstraints>
+   <children>
+      <Pane prefHeight="476.0" prefWidth="583.0" GridPane.rowIndex="1">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+         <children>
+            <TextArea disable="true" editable="false" layoutY="4.0" prefHeight="52.0" prefWidth="583.0" style="-fx-background-color: white; -fx-font-size: 20; -fx-font-family: Helvetica; -fx-padding: 10; -fx-font-style: italic;" text="                            Arithmetic-Operation" />
+            <TableView fx:id="table" layoutY="54.0" prefHeight="283.0" prefWidth="582.0">
+              <columns>
+                <TableColumn fx:id="operation" editable="false" prefWidth="325.0" sortable="false" text="表达式" />
+                  <TableColumn fx:id="answerByStu" editable="false" minWidth="0.0" prefWidth="131.0" sortable="false" text="考试答案" />
+                  <TableColumn fx:id="answerByPro" editable="false" prefWidth="125.0" sortable="false" text="正确答案" />
+              </columns>
+            </TableView>
+            <Button fx:id="generate" layoutX="223.0" layoutY="385.0" mnemonicParsing="false" onAction="#generate" style="-fx-background-radius: 5;" text="生成" />
+            <TextField fx:id="argField" layoutX="146.0" layoutY="385.0" prefHeight="23.0" prefWidth="71.0" />
+            <TextField disable="true" editable="false" layoutX="22.0" layoutY="385.0" prefHeight="23.0" prefWidth="124.0" style="-fx-background-color: white;" text="请输入表达式数量：" />
+            <Button fx:id="selectQuestions" layoutX="321.0" layoutY="368.0" mnemonicParsing="false" onAction="#selectQuestions" text="选择题目" />
+            <Button fx:id="selectAnswer" layoutX="321.0" layoutY="397.0" mnemonicParsing="false" onAction="#selectAnswer" text="选择答案" />
+            <TextField fx:id="questionsTxt" disable="true" editable="false" layoutX="385.0" layoutY="368.0" prefHeight="23.0" prefWidth="124.0" style="-fx-background-color: white;" text="未选择文件..." />
+            <TextField fx:id="answerTxt" disable="true" editable="false" layoutX="385.0" layoutY="397.0" prefHeight="23.0" prefWidth="124.0" style="-fx-background-color: white;" text="未选择文件..." />
+            <Button fx:id="proofread" layoutX="514.0" layoutY="386.0" mnemonicParsing="false" onAction="#proofread" prefHeight="23.0" prefWidth="64.0" style="-fx-background-radius: 5;" text="校对答案" />
+            <Button fx:id="download" layoutX="264.0" layoutY="385.0" mnemonicParsing="false" onAction="#download" style="-fx-background-radius: 5;" text="下载" />
+         </children>
+      </Pane>
+   </children>
+</GridPane>

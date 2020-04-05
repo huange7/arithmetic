@@ -40,7 +40,7 @@ public class Operations {
 
     public String generateOperations() {
 
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuffer stringBuilder = new StringBuffer();
 
         if (randomSelective()) {
             init(true);
@@ -116,15 +116,30 @@ public class Operations {
             // 保证生成大于0
             int left = new Random().nextInt(10) + 1;
             int mother = new Random().nextInt(101) + 1;
-            int son = new Random().nextInt(mother);
+            int son;
+            // 保证生成最简分数
+            do {
+                son = new Random().nextInt(mother) + 1;
+            }while (!isSimplest(son, mother));
             return left + "'" + son + "/" + mother;
         } else {
             return String.valueOf(new Random().nextInt(101));
         }
     }
 
+    private boolean isSimplest(int son, int mother){
+        int tempMo = mother, tempSon = son;
+        int r = tempMo % tempSon;
+        while ( r > 0){
+            tempMo = tempSon;
+            tempSon = r;
+            r = tempMo % tempSon;
+        }
+        return tempSon == 1;
+    }
+
     private void generateChar(LinkedList<Character> characters) {
-        String chars = "+-*÷";
+        String chars = "+-×÷";
         for (int i = 0; i < operatorsNumber; i++) {
             characters.add(chars.charAt(new Random().nextInt(chars.length())));
         }
@@ -134,7 +149,7 @@ public class Operations {
         return new Random().nextInt(2) == 1;
     }
 
-    private void generateLeftKuohao(StringBuilder stringBuilder) {
+    private void generateLeftKuohao(StringBuffer stringBuilder) {
         for (int i = 0; i < limit; i++) {
             if (bracketsPos.size() >= limit) {
                 break;
@@ -159,7 +174,7 @@ public class Operations {
         }
     }
 
-    private void generateRightKuohao(StringBuilder stringBuilder, boolean flag) {
+    private void generateRightKuohao(StringBuffer stringBuilder, boolean flag) {
         if (bracketsPos.isEmpty()) {
             return;
         }
@@ -170,7 +185,7 @@ public class Operations {
                     stringBuilder.append(')');
                 }
             }
-            if (bracketsPos.size() == MAX_BRACKETS && bracketsPos.get(0).equals(bracketsPos.get(1))) {
+            if (bracketsPos.size() == MAX_BRACKETS && bracketsPos.get(0).equals(bracketsPos.get(1)) && bracketsPos.get(0) != -1) {
                 stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
             }
             return;
