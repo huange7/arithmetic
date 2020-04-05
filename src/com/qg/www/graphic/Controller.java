@@ -13,7 +13,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.stage.DirectoryChooser;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -56,6 +60,10 @@ public class Controller {
     @FXML
     private Button selectQuestions;
 
+    private File questions;
+
+    private File answers;
+
     /**
      * 线程池执行异步任务
      */
@@ -78,11 +86,11 @@ public class Controller {
 
     @FXML
     void generate(ActionEvent event) {
-        if (isHandlering){
+        if (isHandlering) {
             VerifyUtil.alertTip("当前有任务正在执行...");
             return;
         }
-        if (!VerifyUtil.verifyArgs(argField.getText())){
+        if (!VerifyUtil.verifyArgs(argField.getText())) {
             VerifyUtil.alertTip("参数传输错误！");
             return;
         }
@@ -104,12 +112,22 @@ public class Controller {
 
     @FXML
     void selectQuestions(ActionEvent event) {
-
+        questions = chooseTxt();
+        questionsTxt.setText(questions.getName());
     }
 
     @FXML
     void selectAnswer(ActionEvent event) {
+        answers = chooseTxt();
+        answerTxt.setText(answers.getName());
+    }
 
+    private File chooseTxt() {
+        Stage stage = new Stage();
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
+        fileChooser.getExtensionFilters().add(extFilter);
+        return fileChooser.showOpenDialog(stage);
     }
 
     @FXML
