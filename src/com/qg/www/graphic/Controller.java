@@ -1,10 +1,9 @@
 package com.qg.www.graphic;
 
-import com.qg.www.calculate.Operations;
 import com.qg.www.model.AnswerResult;
 import com.qg.www.service.Service;
 import com.qg.www.service.impl.ServiceImpl;
-import com.qg.www.util.VerifyUtil;
+import com.qg.www.util.ArgsUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,12 +12,10 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -60,10 +57,6 @@ public class Controller {
     @FXML
     private Button selectQuestions;
 
-    private File questions;
-
-    private File answers;
-
     /**
      * 线程池执行异步任务
      */
@@ -87,11 +80,11 @@ public class Controller {
     @FXML
     void generate(ActionEvent event) {
         if (isHandlering) {
-            VerifyUtil.alertTip("当前有任务正在执行...");
+            ArgsUtil.alertTip("当前有任务正在执行...");
             return;
         }
-        if (!VerifyUtil.verifyArgs(argField.getText())) {
-            VerifyUtil.alertTip("参数传输错误！");
+        if (!ArgsUtil.verifyArgs(argField.getText())) {
+            ArgsUtil.alertTip("参数传输错误！");
             return;
         }
         // 异步执行任务
@@ -103,7 +96,7 @@ public class Controller {
             operationData.clear();
 
             // 开始执行计算
-            service.generateQuestion(Integer.valueOf(argField.getText()));
+            service.generateQuestion(ArgsUtil.questionNumber);
 
             argField.setText("");
             isHandlering = false;
@@ -112,14 +105,16 @@ public class Controller {
 
     @FXML
     void selectQuestions(ActionEvent event) {
-        questions = chooseTxt();
-        questionsTxt.setText(questions.getName());
+        File file = chooseTxt();
+        ArgsUtil.questionPath = file.getAbsolutePath();
+        questionsTxt.setText(file.getName());
     }
 
     @FXML
     void selectAnswer(ActionEvent event) {
-        answers = chooseTxt();
-        answerTxt.setText(answers.getName());
+        File file = chooseTxt();
+        ArgsUtil.answerPath = file.getAbsolutePath();
+        answerTxt.setText(file.getName());
     }
 
     private File chooseTxt() {

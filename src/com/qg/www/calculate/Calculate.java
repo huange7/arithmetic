@@ -76,11 +76,13 @@ public class Calculate {
             case "+":
                 return String.valueOf(Integer.valueOf(num1) + Integer.valueOf(num2));
             case "-":
-                return String.valueOf(Integer.valueOf(num1) - Integer.valueOf(num2));
+                int resultNumber = Integer.valueOf(num1) - Integer.valueOf(num2);
+                return String.valueOf(resultNumber > 0 ? "ERROR" : resultNumber);
             case "×":
                 return String.valueOf(Integer.valueOf(num1) * Integer.valueOf(num2));
             case "÷":
                 return Simplify(Integer.valueOf(num1), Integer.valueOf(num2));
+                default:
         }
         return null;
     }

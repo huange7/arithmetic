@@ -18,8 +18,8 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) {
-//        ShowGraphic.show(args);
-        Operations operations = new Operations();
+        ShowGraphic.show(args);
+      /*  Operations operations = new Operations();
         for (int i = 0; i <100;){
             String operation = operations.generateOperations();
             String result = Calculate.getResult(operation);
@@ -28,7 +28,7 @@ public class Main {
             }
             System.out.println(operation + "=" + Calculate.getResult(operation));
             i++;
-        }
+        }*/
 //        String test = "1'1/2 + 1/2";
 //        String tes = "(11'1/3 + 12) × 11 - 2";
 //        System.out.println(Calculate.getResult(tes));

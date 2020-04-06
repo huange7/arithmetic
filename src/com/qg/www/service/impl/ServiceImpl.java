@@ -18,17 +18,30 @@ public class ServiceImpl implements Service {
     @Override
     public void generateQuestion(Integer number) {
         Operations operations = new Operations();
-        for (int i = 0; i < number; i++) {
+        while (number > 0) {
             AnswerResult answerResult = new AnswerResult();
             String operation = operations.generateOperations();
-            answerResult.setQuestion(operation);
-            try {
-                answerResult.setAnswerByProject(Calculate.getResult(operation));
-            } catch (Exception e) {
+            String resultString = Calculate.getResult(operation).split("'")[0];
+            if ("ERROR".equals(resultString)){
                 continue;
-            }finally {
-                operationData.add(answerResult);
             }
+            Double result = Double.valueOf(resultString);
+            if (result > 100 || result < 0){
+                continue;
+            }
+            answerResult.setQuestion(operation);
+            answerResult.setAnswerByProject(result.toString());
+            number--;
         }
+    }
+
+    @Override
+    public void checkQuestion() {
+
+    }
+
+    @Override
+    public void downloadQuestion() {
+
     }
 }

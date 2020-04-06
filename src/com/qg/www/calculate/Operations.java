@@ -1,5 +1,7 @@
 package com.qg.www.calculate;
 
+import com.qg.www.util.ArgsUtil;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -50,11 +52,11 @@ public class Operations {
 
         for (int i = 0; ; i++) {
             if (i % 2 == 0) {
-                generateLeftKuohao(stringBuilder);
+                generateLeftBracket(stringBuilder);
                 stringBuilder.append(numberList.poll());
 
             } else {
-                generateRightKuohao(stringBuilder, false);
+                generateRightBracket(stringBuilder, false);
                 stringBuilder.append(characters.poll());
                 count++;
             }
@@ -64,7 +66,7 @@ public class Operations {
             stringBuilder.append(" ");
         }
 
-        generateRightKuohao(stringBuilder, true);
+        generateRightBracket(stringBuilder, true);
 
         destroy();
 
@@ -105,6 +107,7 @@ public class Operations {
         characters.clear();
     }
 
+    // 随机生成数字（整数或真分数）
     private void generateNumber(LinkedList<String> numberList, Boolean isTrueFraction) {
         for (int i = 0; i < operatorsNumber + 1; i++) {
             numberList.add(buildNumber(isTrueFraction));
@@ -114,8 +117,9 @@ public class Operations {
     private String buildNumber(Boolean isTrueFraction) {
         if (isTrueFraction && randomSelective()) {
             // 保证生成大于0
-            int left = new Random().nextInt(10) + 1;
-            int mother = new Random().nextInt(101) + 1;
+            int left = new Random().nextInt(ArgsUtil.numberBound) + 1;
+            // 控制分母在10以内
+            int mother = new Random().nextInt(ArgsUtil.numberBound < 11 ? ArgsUtil.numberBound : 11) + 1;
             int son;
             // 保证生成最简分数
             do {
@@ -127,6 +131,7 @@ public class Operations {
         }
     }
 
+    // 求出最简分数
     private boolean isSimplest(int son, int mother){
         int tempMo = mother, tempSon = son;
         int r = tempMo % tempSon;
@@ -138,6 +143,7 @@ public class Operations {
         return tempSon == 1;
     }
 
+    // 随机生成运算符
     private void generateChar(LinkedList<Character> characters) {
         String chars = "+-×÷";
         for (int i = 0; i < operatorsNumber; i++) {
@@ -145,11 +151,13 @@ public class Operations {
         }
     }
 
+    // 随机选择算法
     private boolean randomSelective() {
         return new Random().nextInt(2) == 1;
     }
 
-    private void generateLeftKuohao(StringBuffer stringBuilder) {
+    // 生成左括号
+    private void generateLeftBracket(StringBuffer stringBuilder) {
         for (int i = 0; i < limit; i++) {
             if (bracketsPos.size() >= limit) {
                 break;
@@ -174,17 +182,21 @@ public class Operations {
         }
     }
 
-    private void generateRightKuohao(StringBuffer stringBuilder, boolean flag) {
+    // 生成右括号
+    // flag 表示是否为表达式结尾
+    private void generateRightBracket(StringBuffer stringBuilder, boolean flag) {
         if (bracketsPos.isEmpty()) {
             return;
         }
 
         if (flag) {
+            // 如果已经到达结尾位置，进行剩余括号的闭括号操作
             for (int i = 0; i < bracketsPos.size(); i++) {
                 if (!bracketsPos.get(i).equals(USED)) {
                     stringBuilder.append(')');
                 }
             }
+            // 可能发生多加一个括号的情况，将其进行剔除
             if (bracketsPos.size() == MAX_BRACKETS && bracketsPos.get(0).equals(bracketsPos.get(1)) && bracketsPos.get(0) != -1) {
                 stringBuilder.delete(stringBuilder.length() - 1, stringBuilder.length());
             }
