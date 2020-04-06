@@ -13,7 +13,8 @@ public class Calculate {
 
     public static Pattern pattern = Pattern.compile("[0-9]+\\'[0-9]+\\/[0-9]+");
 
-    public static String getResult(String expression) {
+    //scope就是用户输入的范围限制
+    public static String getResult(String expression, Integer scope) {
 
         //将所有空格去掉
         expression = expression.replaceAll(" +", "");
@@ -49,7 +50,16 @@ public class Calculate {
             stack.push(result);
             i++;
         }
-        return Transform.FinalFraction(stack.pop());
+        //使用 -r 参数控制题目中数值（自然数、真分数和真分数分母）的范围
+        String result = Transform.FinalFraction(stack.pop());
+        if (result.equals("ERROR")) {
+            return result;
+        }
+        //对结果进行校验
+        if (Transform.isOutRange(scope, result)) {
+            return "ERROR";
+        }
+        return result;
     }
 
 

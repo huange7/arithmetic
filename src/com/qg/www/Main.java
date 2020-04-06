@@ -21,12 +21,11 @@ public class Main {
       /*  Operations operations = new Operations();
         for (int i = 0; i <100;){
             String operation = operations.generateOperations();
-            System.out.println("题目：" + operation);
-            String result = Calculate.getResult(operation);
+            String result = Calculate.getResult(operation, 10);
             if (result.equals("ERROR")) {
                 continue;
             }
-            System.out.println(operation + "=" + Calculate.getResult(operation));
+            System.out.println(operation + "=" + result);
             i++;
         }*/
 //        String test = "1'1/2 + 1/2";
