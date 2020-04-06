@@ -19,18 +19,15 @@ public class ServiceImpl implements Service {
     public void generateQuestion(Integer number) {
         Operations operations = new Operations();
         while (number > 0) {
+            System.out.println(true);
             AnswerResult answerResult = new AnswerResult();
             String operation = operations.generateOperations();
-            String resultString = Calculate.getResult(operation).split("'")[0];
+            String resultString = Calculate.getResult(operation);
             if ("ERROR".equals(resultString)){
                 continue;
             }
-            Double result = Double.valueOf(resultString);
-            if (result > 100 || result < 0){
-                continue;
-            }
             answerResult.setQuestion(operation);
-            answerResult.setAnswerByProject(result.toString());
+            answerResult.setAnswerByProject(resultString);
             number--;
         }
     }

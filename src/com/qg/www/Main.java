@@ -2,7 +2,6 @@ package com.qg.www;
 
 import com.qg.www.calculate.Calculate;
 import com.qg.www.calculate.Operations;
-import com.qg.www.fileUtils.AnswerFile;
 import com.qg.www.graphic.ShowGraphic;
 
 import java.io.File;
@@ -22,6 +21,7 @@ public class Main {
       /*  Operations operations = new Operations();
         for (int i = 0; i <100;){
             String operation = operations.generateOperations();
+            System.out.println("题目：" + operation);
             String result = Calculate.getResult(operation);
             if (result.equals("ERROR")) {
                 continue;
@@ -37,18 +37,35 @@ public class Main {
 //        answerList.add("2'1/2");
 //        AnswerFile.WriteFile(answerList);
 
-        //比对两个文件内容
+        //Todo huange7注意：比对答案结果直接拿下面这个即可（需要把文件路径改下）
 //        File exerciseFile = new File("D://exercise.txt");
 //        File answerFile = new File("D://answer.txt");
 //        Map<Integer, String> result = AnswerFile.checkAnswer(exerciseFile, answerFile);
+//        int right = 0, error = 0;
+//        String Right = "";
+//        String Error = "";
 //        for (int i = 1; i <= result.size(); i++) {
 //            if (result.get(i).equals("right")) {
-//                System.out.println("right:" + i);
+//                right++;
+//                if (Right.equals("")) {
+//                    Right = Right + i;
+//                }
+//                else {
+//                    Right = Right + ", " + i;
+//                }
 //            }
 //            else {
-//                System.out.println("error:" + i);
+//                error++;
+//                if (Error.equals("")) {
+//                    Error = Error + i;
+//                }
+//                else {
+//                    Error = Error + ", " + i;
+//                }
 //            }
 //        }
+//        System.out.println("Correct: " + right + "(" + Right + ")");
+//        System.out.println("Wrong: " + error + "(" + Error + ")");
     }
 
 }

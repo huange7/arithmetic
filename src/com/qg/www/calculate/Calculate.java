@@ -59,7 +59,7 @@ public class Calculate {
 
         String result;
         //分两种方式运算，一种是整数的运算，一种是分数的运算
-        if (num1.matches("\\-{0,1}[0-9]+\\/\\-{0,1}[0-9]+") || num2.matches("\\-{0,1}[0-9]+\\/{0,1}[0-9]+")) {
+        if (num1.matches("\\-{0,1}[0-9]+\\/\\-{0,1}[0-9]+") || num2.matches("\\-{0,1}[0-9]+\\/\\-{0,1}[0-9]+")) {
             //说明是分数，调用分数运算方法
             result = FractionCount(num1, num2, temp);
         }
@@ -76,8 +76,7 @@ public class Calculate {
             case "+":
                 return String.valueOf(Integer.valueOf(num1) + Integer.valueOf(num2));
             case "-":
-                int resultNumber = Integer.valueOf(num1) - Integer.valueOf(num2);
-                return String.valueOf(resultNumber > 0 ? "ERROR" : resultNumber);
+                return String.valueOf(Integer.valueOf(num1) - Integer.valueOf(num2));
             case "×":
                 return String.valueOf(Integer.valueOf(num1) * Integer.valueOf(num2));
             case "÷":
@@ -103,7 +102,7 @@ public class Calculate {
             return String.valueOf(numerator);
         }
         else {
-            return String.valueOf(numerator) + "/" + String.valueOf(denominator);
+            return (numerator) + "/" + (denominator);
         }
     }
 

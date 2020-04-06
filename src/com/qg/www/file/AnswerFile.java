@@ -1,4 +1,4 @@
-package com.qg.www.fileUtils;
+package com.qg.www.file;
 
 import java.io.*;
 import java.util.*;
@@ -16,17 +16,24 @@ public class AnswerFile {
     //Todo 测试地址，后面需要采用上面的地址
     public static final String address = "D://";
 
+    public static final File file = new File(address + "answer.txt");
+
+    public static FileOutputStream outputStream;
+
+    static {
+        try {
+            outputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            System.out.println("文件未找到");
+        }
+    }
+
+    //将答案写入文件
     public static void WriteFile(List<String> answerList) throws IOException {
-
-        File file = new File(address + "answer.txt");
-
-        FileOutputStream outputStream = null;
-
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            outputStream = new FileOutputStream(file);
             int num = 1;
             for (String answer : answerList) {
                 byte[] bytes = (num++ + ". " + answer + "\r\n").getBytes();
@@ -39,7 +46,7 @@ public class AnswerFile {
         }
     }
 
-    //答案校对
+    //答案校对，返回的是比对结果，key是题号，value是right或error
     public static Map<Integer, String> checkAnswer(File exercisefile, File answerFile) {
 
         BufferedReader exerciseReader = null;
@@ -82,7 +89,9 @@ public class AnswerFile {
             //比对结果
             for (int i = 1; i <= answerMap.size(); i++) {
                 if (exerciseMap.containsKey(i)) {
-                    if (answerMap.get(i).equals(exerciseMap.get(i))) {
+                    //将答案切割出来（格式：3+2=5）
+                    String exercise = exerciseMap.get(i).split("\\=")[1];
+                    if (answerMap.get(i).equals(exercise)) {
                         //结果正确，将题号记录下来
                         result.put(i, "right");
                     }
