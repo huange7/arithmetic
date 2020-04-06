@@ -32,6 +32,12 @@ public class Transform {
 
     //将分数最终结果转化成真分数（例如12/5->2'2/5）
     public static String FinalFraction(String fraction) {
+
+        //判断一下结果是否为负
+        if (fraction.matches("\\-{1}[0-9]+\\/[0-9]+") || fraction.matches("[0-9]+\\/\\-{1}[0-9]+")
+            || fraction.matches("\\-[0-9]+")) {
+            return "ERROR";
+        }
         if (fraction.matches("[0-9]+\\/[0-9]+")) {
             Integer numerator = Integer.valueOf(fraction.split("\\/")[0]);
             Integer denominator = Integer.valueOf(fraction.split("\\/")[1]);
@@ -139,13 +145,13 @@ public class Transform {
     public static int[] changeToFraction(String num) {
 
         int[] number = new int[2];
-        if (num.matches("[0-9]+\\/[0-9]+")) {
+        if (num.matches("\\-{0,1}[0-9]+\\/\\-{0,1}[0-9]+")) {
             //先化成最简
             String[] strings = num.split("\\/");
             num = Calculate.Simplify(Integer.valueOf(strings[0]), Integer.valueOf(strings[1]));
         }
         //提取分子分母
-        if (num.matches("[0-9]+\\/[0-9]+")) {
+        if (num.matches("\\-{0,1}[0-9]+\\/\\-{0,1}[0-9]+")) {
             String[] strings = num.split("\\/");
             //分子
             number[0] = Integer.valueOf(strings[0]);
@@ -157,5 +163,17 @@ public class Transform {
             number[1] = 1;
         }
         return number;
+    }
+
+    //将真分数转化成假分数
+    public static String TrueToFalse(String fraction) {
+        if (fraction.matches("[0-9]+\\'[0-9]+\\/[0-9]+")) {
+            String num = fraction.split("\\/")[0];
+            Integer denominator = Integer.valueOf(fraction.split("\\/")[1]);
+            Integer numerator = Integer.valueOf(num.split("\\'")[0]) * denominator +
+                    Integer.valueOf(num.split("\\'")[1]);
+            return numerator + "/" + denominator;
+        }
+        return fraction;
     }
 }

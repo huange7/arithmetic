@@ -1,9 +1,8 @@
 package com.qg.www.calculate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Stack;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @description 对算数表达式进行结算
@@ -12,10 +11,18 @@ import java.util.Stack;
  */
 public class Calculate {
 
+    public static Pattern pattern = Pattern.compile("[0-9]+\\'[0-9]+\\/[0-9]+");
+
     public static String getResult(String expression) {
 
         //将所有空格去掉
         expression = expression.replaceAll(" +", "");
+        //将表达式中所有的真分数转化成假分数
+        Matcher m = pattern.matcher(expression);
+        while(m.find())
+        {
+            expression = expression.replace(m.group(), Transform.TrueToFalse(m.group()));
+        }
         //将中缀表达式转换成后缀表达式
         expression = Transform.change(expression);
 
@@ -35,7 +42,11 @@ public class Calculate {
             }
             String num2 = stack.pop();
             String num1 = stack.pop();
-            stack.push(cout(num1, num2, strings[i]));
+            String result = cout(num1, num2, strings[i]);
+            if (result.equals("ERROR")) {
+                return result;
+            }
+            stack.push(result);
             i++;
         }
         return Transform.FinalFraction(stack.pop());
@@ -48,7 +59,7 @@ public class Calculate {
 
         String result;
         //分两种方式运算，一种是整数的运算，一种是分数的运算
-        if (num1.matches("[0-9]+\\/[0-9]+") || num2.matches("[0-9]+\\/[0-9]+")) {
+        if (num1.matches("\\-{0,1}[0-9]+\\/\\-{0,1}[0-9]+") || num2.matches("\\-{0,1}[0-9]+\\/{0,1}[0-9]+")) {
             //说明是分数，调用分数运算方法
             result = FractionCount(num1, num2, temp);
         }
