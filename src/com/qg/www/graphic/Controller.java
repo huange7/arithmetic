@@ -62,12 +62,14 @@ public class Controller {
      */
     public static ExecutorService executorService = Executors.newFixedThreadPool(1);
 
-    private boolean isHandlering = false;
+    private volatile boolean isHandlering = false;
 
     /**
      * 存储表格数据
      */
     public static ObservableList<AnswerResult> operationData = FXCollections.observableArrayList();
+
+    private Service service = new ServiceImpl();
 
     @FXML
     private void initialize() {
@@ -83,15 +85,14 @@ public class Controller {
             ArgsUtil.alertTip("当前有任务正在执行...");
             return;
         }
-        if (!ArgsUtil.verifyArgs(argField.getText())) {
+
+        if (!ArgsUtil.verifyArgsX(argField.getText())) {
             ArgsUtil.alertTip("参数传输错误！");
             return;
         }
         // 异步执行任务
+        isHandlering = true;
         executorService.execute(() -> {
-            isHandlering = true;
-
-            Service service = new ServiceImpl();
             // 对上一次统计的遗留数据进行移除
             operationData.clear();
 
@@ -106,6 +107,9 @@ public class Controller {
     @FXML
     void selectQuestions(ActionEvent event) {
         File file = chooseTxt();
+        if (file == null){
+            return;
+        }
         ArgsUtil.questionPath = file.getAbsolutePath();
         questionsTxt.setText(file.getName());
     }
@@ -127,12 +131,29 @@ public class Controller {
 
     @FXML
     void proofread(ActionEvent event) {
-
+        ArgsUtil.isX = true;
+        if (isHandlering){
+            ArgsUtil.alertTip("当前有任务正在执行...");
+            return;
+        }
+        if (ArgsUtil.answerPath == null || ArgsUtil.questionPath == null){
+            ArgsUtil.alertTip("暂未选择文件！");
+            return;
+        }
+        isHandlering = true;
+        executorService.execute(()->{
+            service.checkQuestion();
+            isHandlering = false;
+        });
     }
 
     @FXML
     void download(ActionEvent event) {
-
+        if (operationData.size() <= 0){
+            ArgsUtil.alertTip("请先生成题目！");
+            return;
+        }
+        service.downloadQuestion();
     }
 
 }

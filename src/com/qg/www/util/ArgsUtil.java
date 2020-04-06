@@ -19,6 +19,10 @@ public class ArgsUtil {
 
     public static String answerPath;
 
+    public static boolean isX;
+
+    public static Boolean isGenerate;
+
     public static void alertTip(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.titleProperty().set("提醒");
@@ -31,53 +35,94 @@ public class ArgsUtil {
         numberBound = 0;
         questionPath = null;
         answerPath = null;
+        isX = false;
+        isGenerate = false;
     }
 
     public static boolean isFile(String fileName) {
-        if (fileName.matches(".*.txt")) {
+        if (fileName.matches(".*\\.txt")) {
             return true;
         }
         return false;
     }
 
-    public static boolean verifyArgs(String args) {
+    public static boolean verifyArgsX(String args){
         if ("".equals(args)) {
             return false;
         }
+        return verifyArgs(args.split(" "), true);
+    }
+
+    public static boolean verifyArgs(String[] args, boolean isXCall) {
+
+        boolean isR = false, isN = false, isE = false, isA = false;
         init();
-        String[] allArgs = args.split(" ");
-        for (int i = 0; i < allArgs.length; i++) {
-            switch (allArgs[i]) {
+        if (isXCall){
+            isX = true;
+        }
+        for (int i = 0; i < args.length; i++) {
+            switch (args[i]) {
                 case "-n":
                     try {
-                        questionNumber = Integer.valueOf(allArgs[i + 1]);
+                        isN = true;
+                        questionNumber = Integer.valueOf(args[i + 1]);
                     } catch (Exception e) {
+                        return false;
+                    }
+                    if (questionNumber <= 0){
                         return false;
                     }
                     break;
                 case "-r":
                     try {
-                        numberBound = Integer.valueOf(allArgs[i + 1]);
+                        isR = true;
+                        numberBound = Integer.valueOf(args[i + 1]);
                     } catch (Exception e) {
+                        return false;
+                    }
+                    if (numberBound <= 0){
                         return false;
                     }
                     break;
                 case "-e":
-                    questionPath = allArgs[i + 1];
+                    if (isXCall){
+                        return false;
+                    }
+                    isE = true;
+                    try {
+                        questionPath = args[i + 1];
+                    } catch (Exception e) {
+                        return false;
+                    }
                     if (!isFile(questionPath)) {
                         return false;
                     }
                     break;
                 case "-a":
-                    answerPath = allArgs[i + 1];
+                    if (isXCall){
+                        return false;
+                    }
+                    isA = true;
+                    try {
+                        answerPath = args[i + 1];
+                    } catch (Exception e) {
+                        return false;
+                    }
                     if (!isFile(answerPath)) {
                         return false;
                     }
+                    break;
+                case "-x":
+                    if (isXCall){
+                        return false;
+                    }
+                    isX = true;
                     break;
                 default:
                     break;
             }
         }
-        return true;
+        isGenerate = isN;
+        return isN && isR || isA && isE || isX;
     }
 }

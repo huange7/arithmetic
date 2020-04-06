@@ -1,6 +1,7 @@
 package com.qg.www.calculate;
 
 import com.qg.www.util.ArgsUtil;
+import com.sun.org.apache.xpath.internal.Arg;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -127,7 +128,7 @@ public class Operations {
             }while (!isSimplest(son, mother));
             return left + "'" + son + "/" + mother;
         } else {
-            return String.valueOf(new Random().nextInt(101));
+            return String.valueOf(new Random().nextInt(ArgsUtil.numberBound));
         }
     }
 

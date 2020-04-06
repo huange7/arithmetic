@@ -17,4 +17,7 @@ public interface Service {
 
     // 下载题目
     void downloadQuestion();
+
+    // 主函数
+    void main(String[] args);
 }
