@@ -176,4 +176,36 @@ public class Transform {
         }
         return fraction;
     }
+
+    //判断结果的范围
+    public static Boolean isOutRange(Integer scope, String result) {
+        //对结果分类，如果是整数形式
+        if (result.matches("^[0-9]+$")) {
+            if (Integer.valueOf(result) > scope) {
+                return true;
+            }
+            return false;
+        }
+        //剩下就是真分数的形式,将格式全部转化成假分数形式
+        result = TrueToFalse(result);
+        //获取分子和分母
+        String[] strings = result.split("\\/");
+        int[] number = new int[2];
+        //分子
+        number[0] = Integer.valueOf(strings[0]);
+        //分母
+        number[1] = Integer.valueOf(strings[1]);
+        if (number[1] > scope) {
+            //分母超过范围
+            return true;
+        }
+        //分子大于分母
+        if (number[0] > number[1]) {
+            int temp = (number[0] - number[0] % number[1]) / number[1];
+            if (temp > scope) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
