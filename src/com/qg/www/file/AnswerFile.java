@@ -6,6 +6,8 @@ import com.qg.www.model.AnswerResult;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author guopei
@@ -15,6 +17,8 @@ import java.util.*;
 public class AnswerFile {
     //获取系统当前路径
     public static final String address = System.getProperty("user.dir");
+
+    public static Pattern patten = Pattern.compile("[1-9][0-9]*\\.[0-9]+(\\/[1-9]+){0,1}");
 
     //将答案写入文件
     public static void writeFile(List answerList, boolean isAnswer) throws IOException {
@@ -101,11 +105,19 @@ public class AnswerFile {
             while ((content = exerciseReader.readLine()) != null) {
                 //去除字符串的所有空格
                 content = content.replaceAll(" +", "");
+                if (!isQualified(content, false)) {
+                    System.out.println("文本的内容格式错误");
+                    return null;
+                }
                 exerciseMap.put(Integer.valueOf(content.split("\\.")[0]), content.split("\\.")[1]);
             }
             while ((content = answerReader.readLine()) != null) {
                 //去除字符串的所有空格
                 content = content.replaceAll(" +", "");
+                if (!isQualified(content, true)) {
+                    System.out.println("文本的内容格式错误");
+                    return null;
+                }
                 answerMap.put(Integer.valueOf(content.split("\\.")[0]), content.split("\\.")[1]);
             }
             exerciseReader.close();
@@ -142,4 +154,27 @@ public class AnswerFile {
         return result;
     }
 
+    //判断文本的内容是否符合要求
+    private static Boolean isQualified(String content, Boolean isAnswer) {
+        //如果是答案的格式
+        if (isAnswer) {
+            Matcher matcher = patten.matcher(content);
+            if (!matcher.find()) {
+                return false;
+            }
+            if (matcher.group().equals(content)) {
+                //说明内容完全匹配
+                return true;
+            }
+            return false;
+        }
+        else {
+            //说明是表达式
+            String matches = "[1-9][0-9]*\\.[0-9,\\+,\\-,\\(,\\),\\×,\\÷]+\\=[0-9]+";
+            if (content.matches(matches)) {
+                return true;
+            }
+            return false;
+        }
+    }
 }
