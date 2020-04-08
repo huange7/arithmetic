@@ -134,11 +134,9 @@ public class ServiceImpl implements Service {
 
         // 进行处理
         if (ArgsUtil.isGenerate) {
-            System.out.println(true);
             // 生成题目
             generateQuestion(ArgsUtil.questionNumber);
         }else {
-            System.out.println(false);
             // 进行答案的校对
             checkQuestion();
         }
