@@ -13,7 +13,6 @@ import java.util.*;
  * @date 2020-04-05 10:56
  */
 public class AnswerFile {
-
     //获取系统当前路径
     public static final String address = System.getProperty("user.dir");
 
@@ -23,15 +22,19 @@ public class AnswerFile {
         File exercisefile;
         FileOutputStream outputStreamAnswer = null;
         FileOutputStream outputStreamExercise = null;
+        BufferedWriter answerWriter = null;
+        BufferedWriter exerciseWriter = null;
         if (isAnswer) {
             answerfile = new File(address + "\\answer.txt");
             outputStreamAnswer = new FileOutputStream(answerfile);
+            answerWriter = new BufferedWriter(new OutputStreamWriter(outputStreamAnswer, "UTF-8"));
             if (!answerfile.exists()) {
                 answerfile.createNewFile();
             }
         } else {
             exercisefile = new File(address + "\\exercise.txt");
             outputStreamExercise = new FileOutputStream(exercisefile);
+            exerciseWriter = new BufferedWriter(new OutputStreamWriter(outputStreamExercise, "UTF-8"));
             if (!exercisefile.exists()) {
                 exercisefile.createNewFile();
             }
@@ -44,17 +47,21 @@ public class AnswerFile {
             } else {
                 answer = ((AnswerResult) o).questionProperty().getValue();
             }
-            byte[] bytes = (num++ + ". " + answer + "\r\n").getBytes();
+            answer = num++ + ". " + answer + "\r\n";
             if (isAnswer){
-                outputStreamAnswer.write(bytes);
+                answerWriter.write(answer);
+                answerWriter.flush();
             }else {
-                outputStreamExercise.write(bytes);
+                exerciseWriter.write(answer);
+                exerciseWriter.flush();
             }
         }
         if (isAnswer){
             outputStreamAnswer.close();
+            answerWriter.close();
         }else {
             outputStreamExercise.close();
+            exerciseWriter.close();
         }
     }
 
