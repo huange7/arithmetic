@@ -21,7 +21,6 @@ import java.util.*;
  */
 public class Main {
     public static void main(String[] args) {
-        //ShowGraphic.show(args);
         Service service = new ServiceImpl();
         service.main(args);
     }
