@@ -18,7 +18,7 @@ public class AnswerFile {
     //获取系统当前路径
     public static final String address = System.getProperty("user.dir");
 
-    public static Pattern patten = Pattern.compile("[1-9][0-9]*\\.[0-9]+(\\/[1-9]+){0,1}");
+    public static Pattern patten = Pattern.compile("[1-9][0-9]*\\.[0-9]+(\\'{0,1}[0-9]+\\/[0-9]+){0,1}(\\/[1-9]+){0,1}");
 
     //将答案写入文件
     public static void writeFile(List answerList, boolean isAnswer) throws IOException {
@@ -170,7 +170,7 @@ public class AnswerFile {
         }
         else {
             //说明是表达式
-            String matches = "[1-9][0-9]*\\.[0-9,\\+,\\-,\\(,\\),\\×,\\÷]+\\=[0-9]+";
+            String matches = "[1-9][0-9]*\\.[0-9,\\',\\/,\\+,\\-,\\(,\\),\\×,\\÷]+\\=[0-9]+";
             if (content.matches(matches)) {
                 return true;
             }

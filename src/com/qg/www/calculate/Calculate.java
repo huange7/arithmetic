@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  */
 public class Calculate {
 
-    public static Pattern pattern = Pattern.compile("[0-9]+\\'[0-9]+\\/[0-9]+");
+    public static Pattern pattern = Pattern.compile("[0-9]+\\'[0-9]+\\/[1-9][0-9]*");
 
     //scope就是用户输入的范围限制
     public static String getResult(String expression, Integer scope) {
@@ -99,11 +99,11 @@ public class Calculate {
     //将分数进行化简的式子(numerator为分子，denominator为分母)
     public static String Simplify(Integer numerator, Integer denominator) {
 
-        if (numerator == 0) {
-            return "0";
-        }
         if (denominator == 0) {
             return "ERROR";
+        }
+        if (numerator == 0) {
+            return "0";
         }
         int p = Transform.getMax(numerator, denominator);
         numerator /= p;
