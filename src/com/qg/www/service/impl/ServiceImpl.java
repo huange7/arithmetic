@@ -105,18 +105,31 @@ public class ServiceImpl implements Service {
                 continue;
             }
 
+            boolean bs = false;
+
             // 查看是否存在
             for (String iString : iNumber){
                 if (!nowNumber.contains(iString)){
+                    bs = true;
                     break;
                 }
             }
 
+            if (bs){
+                continue;
+            }
+
             for (Character iC : iChar){
                 if (!nowChar.contains(iC)){
+                    bs = true;
                     break;
                 }
             }
+
+            if (bs){
+                continue;
+            }
+
             flag = true;
         }
 
