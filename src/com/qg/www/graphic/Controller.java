@@ -123,6 +123,9 @@ public class Controller {
     @FXML
     void selectAnswer(ActionEvent event) {
         File file = chooseTxt();
+        if (file == null){
+            return;
+        }
         ArgsUtil.answerPath = file.getAbsolutePath();
         answerTxt.setText(file.getName());
     }
