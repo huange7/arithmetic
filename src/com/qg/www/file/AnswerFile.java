@@ -105,7 +105,9 @@ public class AnswerFile {
             while ((content = exerciseReader.readLine()) != null) {
                 //去除字符串的所有空格
                 content = content.replaceAll(" +", "");
+                content = content.replaceAll("\uFEFF", "");
                 if (!isQualified(content, false)) {
+                    System.out.println(content);
                     System.out.println("文本的内容格式错误");
                     return null;
                 }
@@ -114,7 +116,9 @@ public class AnswerFile {
             while ((content = answerReader.readLine()) != null) {
                 //去除字符串的所有空格
                 content = content.replaceAll(" +", "");
+                content = content.replaceAll("\uFEFF", "");
                 if (!isQualified(content, true)) {
+                    System.out.println(content);
                     System.out.println("文本的内容格式错误");
                     return null;
                 }
@@ -176,5 +180,10 @@ public class AnswerFile {
             }
             return false;
         }
+    }
+
+    public static void main(String[] args) {
+        String expression = "\uFEFF1.(0÷2)×6=0";
+        System.out.println(expression.matches("[1-9][0-9]*\\.[0-9,\\',\\/,\\+,\\-,\\(,\\),\\×,\\÷]+\\=[0-9]+"));
     }
 }

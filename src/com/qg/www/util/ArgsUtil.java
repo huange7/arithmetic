@@ -80,7 +80,7 @@ public class ArgsUtil {
                     } catch (Exception e) {
                         return false;
                     }
-                    if (numberBound <= 0){
+                    if (numberBound <= 1){
                         return false;
                     }
                     break;
@@ -123,6 +123,6 @@ public class ArgsUtil {
             }
         }
         isGenerate = isN;
-        return isN && isR || isA && isE || isX;
+        return isN && isR || isA && isE || (isX && !isXCall);
     }
 }

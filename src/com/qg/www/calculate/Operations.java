@@ -1,12 +1,10 @@
 package com.qg.www.calculate;
 
+import com.qg.www.service.impl.ServiceImpl;
 import com.qg.www.util.ArgsUtil;
 import com.sun.org.apache.xpath.internal.Arg;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * @ClassName Operations
@@ -35,10 +33,10 @@ public class Operations {
     private int limit = 0;
 
     // 存储数字
-    private LinkedList<String> numberList = new LinkedList<>();
+    private LinkedList<String> numberList;
 
     // 存储符号
-    private LinkedList<Character> characters = new LinkedList<>();
+    private LinkedList<Character> characters;
 
 
     public String generateOperations() {
@@ -51,17 +49,19 @@ public class Operations {
             init(false);
         }
 
+        Iterator<String> iteratorNumber = numberList.iterator();
+        Iterator<Character> iteratorChar = characters.iterator();
+
         for (int i = 0; ; i++) {
             if (i % 2 == 0) {
                 generateLeftBracket(stringBuilder);
-                stringBuilder.append(numberList.poll());
-
+                stringBuilder.append(iteratorNumber.next());
             } else {
                 generateRightBracket(stringBuilder, false);
-                stringBuilder.append(characters.poll());
+                stringBuilder.append(iteratorChar.next());
                 count++;
             }
-            if (numberList.isEmpty()) {
+            if (!iteratorNumber.hasNext()) {
                 break;
             }
             stringBuilder.append(" ");
@@ -82,10 +82,14 @@ public class Operations {
         limit = operatorsNumber == 3 ? 2 : operatorsNumber == 1 ? 0 : 1;
 
         // 随机生成数字
-        generateNumber(numberList, isTrueFraction);
+        generateNumber(isTrueFraction);
 
         // 随机生成操作符
-        generateChar(characters);
+        generateChar();
+
+        ServiceImpl.numberList.add(numberList);
+
+        ServiceImpl.charList.add(characters);
     }
 
     private void destroy() {
@@ -100,16 +104,11 @@ public class Operations {
 
         // 对括号上限进行置零
         limit = 0;
-
-        // 对随机数进行置零
-        numberList.clear();
-
-        // 对随机操作符进行置零
-        characters.clear();
     }
 
     // 随机生成数字（整数或真分数）
-    private void generateNumber(LinkedList<String> numberList, Boolean isTrueFraction) {
+    private void generateNumber(Boolean isTrueFraction) {
+        numberList = new LinkedList<>();
         for (int i = 0; i < operatorsNumber + 1; i++) {
             numberList.add(buildNumber(isTrueFraction));
         }
@@ -151,7 +150,8 @@ public class Operations {
     }
 
     // 随机生成运算符
-    private void generateChar(LinkedList<Character> characters) {
+    private void generateChar() {
+        characters = new LinkedList<>();
         String chars = "+-×÷";
         for (int i = 0; i < operatorsNumber; i++) {
             characters.add(chars.charAt(new Random().nextInt(chars.length())));

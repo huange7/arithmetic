@@ -22,7 +22,7 @@ public class ShowGraphic extends Application {
         primaryStage.setTitle("Arithmetic-Operation");
         primaryStage.setScene(new Scene(root, 582, 458));
         primaryStage.show();
-        primaryStage.setOnCloseRequest((windowEvent)->Controller.executorService.shutdown());
+        primaryStage.setOnCloseRequest((windowEvent)->Controller.executorService.shutdownNow());
     }
 
     public static void show(String[] args) {

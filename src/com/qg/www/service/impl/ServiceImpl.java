@@ -24,20 +24,33 @@ public class ServiceImpl implements Service {
 
     private List<String> answerList = new ArrayList<>();
 
-    List<LinkedList<String>> numberList = new ArrayList<>();
+    public static List<LinkedList<String>> numberList = new ArrayList<>();
 
-    List<LinkedList<Character>> charList = new ArrayList<>();
+    public static List<LinkedList<Character>> charList = new ArrayList<>();
 
     @Override
     public void generateQuestion(Integer number) {
         // 清空答案列表
         answerList.clear();
         Operations operations = new Operations();
+        int times = 0;
         while (number > 0) {
             AnswerResult answerResult = new AnswerResult();
             String operation = operations.generateOperations();
             String resultString = Calculate.getResult(operation, ArgsUtil.numberBound);
             if ("ERROR".equals(resultString)) {
+                numberList.remove(numberList.size() - 1);
+                charList.remove(charList.size() - 1);
+                continue;
+            }
+            if (checkExpression(resultString)){
+                numberList.remove(numberList.size() - 1);
+                charList.remove(charList.size() - 1);
+                times++;
+                if (times == 16){
+                    System.out.println("生成题目时冲突多次！");
+                    break;
+                }
                 continue;
             }
             answerResult.setQuestion(operation + " =");
@@ -64,6 +77,50 @@ public class ServiceImpl implements Service {
         if (!ArgsUtil.isX) {
             downloadQuestion();
         }
+    }
+
+    private boolean checkExpression(String result){
+
+        if (answerList.size() <= 0){
+            return false;
+        }
+
+        int now = answerList.size();
+
+        boolean flag = false;
+
+        // 获取当前表达式
+        List<String> nowNumber = numberList.get(now);
+        List<Character> nowChar = charList.get(now);
+
+        for (int i = 0; i < answerList.size() - 1; i++){
+            if (!result.equals(answerList.get(i))){
+                continue;
+            }
+            List<String> iNumber = numberList.get(i);
+            List<Character> iChar = charList.get(i);
+
+            // 如果数字的大小和字符的大小相等，则进行进一步的验证
+            if (!(iNumber.size() == nowNumber.size() && iChar.size() == nowChar.size())){
+                continue;
+            }
+
+            // 查看是否存在
+            for (String iString : iNumber){
+                if (!nowNumber.contains(iString)){
+                    break;
+                }
+            }
+
+            for (Character iC : iChar){
+                if (!nowChar.contains(iC)){
+                    break;
+                }
+            }
+            flag = true;
+        }
+
+        return flag;
     }
 
 
