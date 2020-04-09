@@ -22,7 +22,11 @@ import java.util.*;
  */
 public class ServiceImpl implements Service {
 
-    List<String> answerList = new ArrayList<>();
+    private List<String> answerList = new ArrayList<>();
+
+    List<LinkedList<String>> numberList = new ArrayList<>();
+
+    List<LinkedList<Character>> charList = new ArrayList<>();
 
     @Override
     public void generateQuestion(Integer number) {
