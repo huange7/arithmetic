@@ -41,6 +41,10 @@
             <TextField fx:id="answerTxt" disable="true" editable="false" layoutX="385.0" layoutY="397.0" prefHeight="23.0" prefWidth="124.0" style="-fx-background-color: white;" text="未选择文件..." />
             <Button fx:id="proofread" layoutX="514.0" layoutY="386.0" mnemonicParsing="false" onAction="#proofread" prefHeight="23.0" prefWidth="64.0" style="-fx-background-radius: 5;" text="校对答案" />
             <Button fx:id="download" layoutX="264.0" layoutY="385.0" mnemonicParsing="false" onAction="#download" style="-fx-background-radius: 5;" text="下载" />
+            <TextField fx:id="right" disable="true" editable="false" layoutX="369.0" layoutY="429.0" prefHeight="23.0" prefWidth="54.0" style="-fx-background-color: white;" />
+            <TextField fx:id="wrong" disable="true" editable="false" layoutX="487.0" layoutY="429.0" prefHeight="23.0" prefWidth="54.0" style="-fx-background-color: white;" />
+            <TextField disable="true" editable="false" layoutX="321.0" layoutY="429.0" prefHeight="23.0" prefWidth="48.0" style="-fx-background-color: white;" text="正确：" />
+            <TextField disable="true" editable="false" layoutX="436.0" layoutY="429.0" prefHeight="23.0" prefWidth="48.0" style="-fx-background-color: white;" text="错误：" />
          </children>
       </Pane>
    </children>

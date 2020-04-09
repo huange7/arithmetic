@@ -11,9 +11,7 @@ import com.qg.www.util.ArgsUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName ServiceImpl
@@ -73,13 +71,13 @@ public class ServiceImpl implements Service {
     }
 
     @Override
-    public void checkQuestion() {
+    public int[] checkQuestion() {
         File exerciseFile = new File(ArgsUtil.questionPath);
         File answerFile = new File(ArgsUtil.answerPath);
         Map<Integer, String> result = AnswerFile.checkAnswer(exerciseFile, answerFile);
         if (result == null){
             System.out.println("文件不存在！");
-            return;
+            return null;
         }
         int right = 0, error = 0;
         String Right = "";
@@ -105,6 +103,7 @@ public class ServiceImpl implements Service {
             }
         }
         System.out.println("Correct: " + right + "(" + Right + ")" +"\r\n" +  "Wrong: " + error + "(" + Error + ")");
+        return new int[]{right, error};
     }
 
     @Override

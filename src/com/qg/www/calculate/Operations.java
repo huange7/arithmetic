@@ -118,9 +118,15 @@ public class Operations {
     private String buildNumber(Boolean isTrueFraction) {
         if (isTrueFraction && randomSelective()) {
             // 保证生成大于0
-            int left = new Random().nextInt(ArgsUtil.numberBound) + 1;
+            int left;
+            do {
+                left = new Random().nextInt(ArgsUtil.numberBound);
+            }while (left <= 0);
             // 控制分母在10以内
-            int mother = new Random().nextInt(ArgsUtil.numberBound < 11 ? ArgsUtil.numberBound : 11) + 1;
+            int mother;
+            do{
+                mother = new Random().nextInt(ArgsUtil.numberBound < 11 ? ArgsUtil.numberBound : 11);
+            }while (mother <= 0);
             int son;
             // 保证生成最简分数
             do {

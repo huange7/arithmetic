@@ -13,7 +13,7 @@ public interface Service {
     void generateQuestion(Integer number);
 
     // 校验题目
-    void checkQuestion();
+    int[] checkQuestion();
 
     // 下载题目
     void downloadQuestion();

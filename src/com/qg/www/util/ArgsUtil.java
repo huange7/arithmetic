@@ -76,7 +76,7 @@ public class ArgsUtil {
                 case "-r":
                     try {
                         isR = true;
-                        numberBound = Integer.valueOf(args[i + 1]);
+                        numberBound = Integer.valueOf(args[i + 1]) + 1;
                     } catch (Exception e) {
                         return false;
                     }

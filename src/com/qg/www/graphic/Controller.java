@@ -57,6 +57,12 @@ public class Controller {
     @FXML
     private Button selectQuestions;
 
+    @FXML
+    private TextField right;
+
+    @FXML
+    private TextField wrong;
+
     /**
      * 线程池执行异步任务
      */
@@ -131,6 +137,8 @@ public class Controller {
 
     @FXML
     void proofread(ActionEvent event) {
+        right.setText("");
+        wrong.setText("");
         ArgsUtil.isX = true;
         if (isHandlering){
             ArgsUtil.alertTip("当前有任务正在执行...");
@@ -142,7 +150,11 @@ public class Controller {
         }
         isHandlering = true;
         executorService.execute(()->{
-            service.checkQuestion();
+            int[] results = service.checkQuestion();
+            if (results != null) {
+                right.setText(String.valueOf(results[0]));
+                wrong.setText(String.valueOf(results[1]));
+            }
             isHandlering = false;
         });
     }
