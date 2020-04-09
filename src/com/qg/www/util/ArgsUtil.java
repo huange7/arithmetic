@@ -69,7 +69,7 @@ public class ArgsUtil {
                     } catch (Exception e) {
                         return false;
                     }
-                    if (questionNumber <= 0){
+                    if (questionNumber <= 0 || questionNumber > 10000){
                         return false;
                     }
                     break;

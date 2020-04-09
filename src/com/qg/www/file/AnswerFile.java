@@ -174,7 +174,7 @@ public class AnswerFile {
         }
         else {
             //说明是表达式
-            String matches = "[1-9][0-9]*\\.[0-9,\\',\\/,\\+,\\-,\\(,\\),\\×,\\÷]+\\=[0-9]+(\\'[0-9]+\\/[0-9]+){0,1}";
+            String matches = "[1-9][0-9]*\\.[0-9,\\',\\/,\\+,\\-,\\(,\\),\\×,\\÷]+\\=[0-9]+('?[0-9]+/[0-9]+|/[0-9]+)?";
             if (content.matches(matches)) {
                 return true;
             }
@@ -183,11 +183,7 @@ public class AnswerFile {
     }
 
     public static void main(String[] args) {
-        String expression = "4.1'1/4+10=11'1/4";
-        System.out.println(expression);
-//        System.out.println(expression.matches("[1-9][0-9]*\\.[0-9,\\',\\/,\\+,\\-,\\(,\\),\\×,\\÷]+\\=[0-9]+(\\'[0-9]+\\/[0-9]+){0,1}"));
-        File answer = new File("D:\\answer.txt");
-        File exercise = new File("D:\\exercise.txt");
-        checkAnswer(exercise, answer);
+        String expression = "12'1/321165456465";
+        System.out.println(expression.matches("[0-9]+('?[0-9]+/[0-9]+|/[0-9]+)?"));
     }
 }
